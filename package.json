@@ -8,12 +8,17 @@
     "start": "next start"
   },
   "dependencies": {
+    "@radix-ui/react-icons": "^1.3.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
     "next": "14.0.4",
     "next-docs-mdx": "7.0.0",
     "next-docs-ui": "7.0.0",
     "next-docs-zeta": "7.0.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "tailwind-merge": "^2.2.0",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@types/node": "20.11.0",
