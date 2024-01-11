@@ -1,0 +1,44 @@
+---
+title: Reqeust And Response
+description: This page describes the Request and Response formats and Authentication.
+---
+
+### Endpoints
+```bash
+https://ta.bazarexchange.ltd
+```
+
+
+### Reqeust Body
+Dont forgot to replace __Token__ with your api token. 
+
+```json
+{
+    "Authentication": "Bearer {{Token}}",      
+    "Content-Type": "application/json",
+    "Body": {
+        
+    }
+}
+```
+
+### Reponse formats
+On success, the HTTP status code in the response header is 200 OK and the response body contains the requested data.
+```json
+{ 
+    "statusCode": 200,
+    "data": {
+        
+    }
+}
+```
+
+On error, the header status code is an error code and the response body contains an error object.
+```json
+{ 
+    "statusCode": 400,
+    "error": "Bad Request",
+    "message": ["Invalid request payload input"],
+}
+```
+

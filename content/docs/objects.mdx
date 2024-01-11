@@ -1,0 +1,305 @@
+---
+title: Objects
+description: This Page is about all Objects used in the project
+---
+
+import { TypeTable } from "next-docs-ui/components/type-table";
+
+## Game
+
+```js
+String 'FREE_FIRE'
+```
+
+## UserRole
+  
+```js
+String 'MERCHANT' | 'ADMIN' | 'SUPPLIER'
+```
+
+## User
+
+<TypeTable
+  key={'User'}
+  type={{
+    id: {
+      description: 'unique identifier for the user',
+      type: 'serial',
+      default: null,
+    },
+    name: {
+      description: 'name of the user',
+      type: 'text',
+      default: null,
+    },
+    role: {
+      description: 'role of the user',
+      type: '#UserRole',
+      default: 'MERCHANT',
+    },
+    token: {
+      description: 'unique token for the user',
+      type: 'text',
+      default: null,
+    },
+    createdAt: {
+      description: 'time when the user was created',
+      type: 'date',
+      default: 'current timestamp',
+    },
+    supplierId: {
+      description: 'identifier for the supplier associated with the user',
+      type: 'integer',
+      default: null,
+    },
+    profitRate: {
+      description: 'profit rate for the user',
+      type: 'decimal',
+      default: null,
+    },
+  }}
+/>
+
+## Node 
+
+<TypeTable
+  key={'Node'}
+  type={{
+    id: {
+      description: 'unique identifier for the node',
+      type: 'serial',
+      default: 'auto increment',
+    },
+    endPoint: {
+      description: 'the end point of the node',
+      type: 'text',
+      notNull: true,
+    },
+    connectionToken: {
+      description: 'the connection token of the node',
+      type: 'text',
+      notNull: true,
+    },
+    createdAt: {
+      description: 'the time the node was created',
+      type: 'date',
+      notNull: true,
+      default: 'auto generated',
+    },
+  }}
+/>
+
+
+## Stock
+
+<TypeTable
+  key={"Stock"}
+  type={{
+    id: {
+      description: "unique identifier for the stock",
+      type: "number",
+      default: "auto increment",
+    },
+    owner: {
+      description: "the user who owns the stock",
+      type: "User",
+    },
+    game: {
+      description: "the game the stock is for",
+      type: "Game",
+    },
+    checkCode: {
+      description: "the code used to check the stock is duplicate",
+      type: "string",
+      default: "auto generaed",
+    },
+    onUse: {
+      description: "the code is being in use on any order",
+      type: "boolean",
+      default: "false",
+    },
+    onBackupUse: {
+      description: "the code is being in use on any order as order",
+      type: "boolean",
+      default: "false",
+    },
+    isUsed: {
+      description: "the code is used in any order",
+      type: "boolean",
+      default: "false",
+    },
+    usedFor: {
+      description: "the order the code is being used for",
+      type: "Order",
+    },
+    isSold: {
+      description: "the code is sold to any user via buy route",
+      type: "boolean",
+      default: "false",
+    },
+    lastUpdate: {
+      description: "the last time the stock data was updated",
+      type: "Date",
+      default: "auto generated",
+    },
+    price: {
+      description: "the price of the stock",
+      type: "number",
+    },
+    createdAt: {
+      description: "the time the stock was created",
+      type: "Date",
+      default: "auto generated",
+    },
+  }}
+/>
+
+## Order
+
+<TypeTable
+  key={"Order"}
+  type={{
+    id: {
+      description: "unique identifier for the order",
+      type: "number",
+      default: "auto increment",
+    },
+    userId: {
+      description: "the ID of the user placing the order",
+      type: "number",
+      notNull: true,
+    },
+    user: {
+      description: "the user placing the order",
+      type: "#User",
+    },
+    game: {
+      description: "the game associated with the order",
+      type: "#Game", // or whatever type 'Game' is
+      notNull: true,
+    },
+    node_id: {
+      description: "the ID of the node",
+      type: "number",
+    },
+    node: {
+      description: "the node associated with the order",
+      type: "#Node",
+    },
+    uid: {
+      description: "unique identifier for the order",
+      type: "string",
+      notNull: true,
+    },
+    state: {
+      description: "the state of the order",
+      type: "number",
+      notNull: true,
+      default: 0,
+    },
+    sequences: {
+      description: "the sequences associated with the order",
+      type: "#Sequence[]",
+    },
+  }}
+/>
+
+## Sequence
+
+<TypeTable
+  key={'Sequence'}
+  type={{
+    id: {
+      description: 'unique identifier for the sequence',
+      type: 'serial',
+      default: 'auto increment',
+    },
+    orderId: {
+      description: 'the ID of the order associated with the sequence',
+      type: 'integer',
+      notNull: true,
+    },
+    order: {
+      description: 'the order associated with the sequence',
+      type: 'Order',
+    },
+    stockId: {
+      description: 'the ID of the stock associated with the sequence',
+      type: 'integer',
+      notNull: true,
+    },
+    stock: {
+      description: 'the stock associated with the sequence',
+      type: 'Stock',
+      },
+    backUpStockId: {
+      description: 'the ID of the backup stock associated with the sequence',
+      type: 'integer',
+    },
+    backupStock: {
+      description: 'the backup stock associated with the sequence',
+      type: 'Stock',
+    },
+    amount: {
+      description: 'the amount of the sequence',
+      type: 'integer',
+      notNull: true,
+    },
+  }}
+/>
+
+## Transaction
+
+<TypeTable
+  type={{
+    id: {
+      description: 'unique identifier for the transaction',
+      type: 'serial',
+      default: 'auto increment',
+    },
+    userId: {
+      description: 'ID of the user associated with the transaction',
+      type: 'integer',
+      default: null,
+    },
+    orderId: {
+      description: 'ID of the order associated with the transaction',
+      type: 'integer',
+      default: null,
+    },
+    sequenceId: {
+      description: 'ID representing the sequence of the transaction',
+      type: 'integer',
+      default: null,
+    },
+    sequence: {
+      description: 'the sequence associated with the transaction',
+      type: '#Sequence',
+    },
+    amount: {
+      description: 'the amount involved in the transaction',
+      type: 'decimal',
+      default: null,
+    },
+    state: {
+      description: 'current state of the transaction',
+      type: 'text',
+      default: "'PENDING'",
+    },
+    paymentState: {
+      description: 'current payment state of the transaction',
+      type: 'text',
+      default: "'DUE'",
+    },
+    createdAt: {
+      description: 'the time the transaction was created',
+      type: 'date',
+      default: 'auto generated',
+    },
+    updatedAt: {
+      description: 'the time the transaction was last updated',
+      type: 'date',
+      default: 'auto generated',
+    },
+  }}
+/>
